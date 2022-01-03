@@ -67,7 +67,7 @@ export class RegisterComponent{
       this.user.name = this.firstName.value;
       this.user.surname = this.lastName.value;
       this.user.sex = this.sex.value;
-      this.user.level = '';
+      this.user.level = 'czytelnik';
 
       this.userService
           .postRegister(this.user)

@@ -15,7 +15,6 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class LoginComponent{
 
-  isLogged = false;
   form: FormGroup;
   userName: FormControl;
   password: FormControl;
@@ -56,21 +55,17 @@ export class LoginComponent{
         this.tokenLogin.token = res.token;
         this.auth.saveType(this.tokenLogin.type);
         this.auth.saveToken(this.tokenLogin.token);
-        this.isLogged = true;
       },
         error => {
           console.error(`ErrorHttp: ${JSON.stringify(error)}`);
-          this.isLogged = false;
       });
       
-      if(this.isLogged){
+      if(this.tokenLogin.token.length > 2){
         this.saveUsernameAndId();
       }
       
     }
-
     
-
     saveUsernameAndId(){
       this.user.getMe().subscribe(res =>{
         this.userMe = res;

@@ -10,7 +10,7 @@ const TOKEN_TYPE = 'token-type';
 })
 export class AuthService {
 
-  loggedIn = false;
+  check: string | any = '';
 
   constructor(
     private router: Router,
@@ -19,13 +19,11 @@ export class AuthService {
 
   signOut(): void {
     window.sessionStorage.clear();
-    this.loggedIn = false;
   }
 
   public saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
-    this.loggedIn = true;
   }
 
   public getToken(): string | null {
@@ -42,7 +40,8 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean{
-    if(this.loggedIn){
+    this.check = this.getToken()
+    if(this.check.length > 2){
       return true;
     } else {
       return false;

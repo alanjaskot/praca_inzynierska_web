@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { error } from '@angular/compiler/src/util';
+
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -61,16 +61,29 @@ export class UserService {
 }
 
   getMe(){
-    const apiUrl = this.settingsService.getApiUrl + '/api/User/GetMe';
+    const apiUrl = this.settingsService.getApiUrl + '/api/User/GetMeWithPassword';
 
     return this.httpClient
-      .get<UserInfoModel>(apiUrl, {withCredentials: true})
+      .get<UserModel>(apiUrl, {withCredentials: true})
       .pipe(map(response => {
         return response;
       }),
       catchError(error => {
         return this.handleError(error);
       }));
+  }
+
+  updateUser(user: UserModel){
+    const apiUrl = this.settingsService.getApiUrl + '/api/User/UpdateUser';
+
+    return this.httpClient
+      .post<UserModel>(apiUrl, user)
+      .pipe(map(response =>{
+        return response;
+      }),
+      catchError(error =>{
+        return this.handleError(error);
+      }))
   }
 
   saveUserName(userName: string){
@@ -91,6 +104,7 @@ export class UserService {
     return window.sessionStorage.getItem(USER_ID);
   }
 
+  /*
   login(userName: string, password: string)
   {
       const apiUrl = this.settingsService.getApiUrl + `/api/Authorization/Login`;
@@ -117,6 +131,7 @@ export class UserService {
           }));
 
   }
+  */
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(`HttpError: ${JSON.stringify(error)}`);
