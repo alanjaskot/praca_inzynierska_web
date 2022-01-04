@@ -18,6 +18,17 @@ import { RegisterComponent } from './user/register/register/register.component';
 import { ProfileComponent } from './user/profile/profile/profile.component';
 import { MyProfileComponent } from './user/my-profile/my-profile/my-profile.component';
 import { LoginGuard } from './guard/login/login.guard';
+import { BookListComponent } from './books/book-list/book-list/book-list.component';
+import { BookComponent } from './books/book/book/book.component';
+import { NewBookComponent } from './books/new-book/new-book/new-book.component';
+import { CategoryService } from './services/category/category.service';
+import { CategoriesComponent } from './categories/categories/categories/categories.component';
+import { CategoryComponent } from './categories/category/category/category.component';
+import { NewCategoryComponent } from './categories/new-category/new-category/new-category.component';
+import { EditCategoryComponent } from './categories/edit-category/edit-category/edit-category.component';
+import { ToastrModule } from 'ngx-toastr';
+
+
 
 @NgModule({
   declarations: [
@@ -28,6 +39,13 @@ import { LoginGuard } from './guard/login/login.guard';
     RegisterComponent,
     ProfileComponent,
     MyProfileComponent,
+    BookListComponent,
+    BookComponent,
+    NewBookComponent,
+    CategoriesComponent,
+    CategoryComponent,
+    NewCategoryComponent,
+    EditCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,12 +54,18 @@ import { LoginGuard } from './guard/login/login.guard';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      timeOut: 3000, // 3 seconds
+      progressBar: true,
+    }),
 
   ],
   providers: [
     UserService,
     SettingsService,
+    CategoryService,
     authInterceptorProviders,
     LoginGuard
   ],

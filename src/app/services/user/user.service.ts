@@ -3,9 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ResponderModel } from 'src/app/models/responders/responder-model';
 import { TokenReposnderModel } from 'src/app/models/token-reposnders/token-reponder-model';
 import { LoginModel } from 'src/app/models/users/login-model';
-import { UserInfoModel } from 'src/app/models/users/user-info-model';
 import { UserModel } from 'src/app/models/users/user-model';
 import { SettingsService } from '../settings/settings.service';
 
@@ -60,7 +60,7 @@ export class UserService {
       }));
 }
 
-  getMe(){
+  getMe(): Observable<ResponderModel | any>{
     const apiUrl = this.settingsService.getApiUrl + '/api/User/GetMeWithPassword';
 
     return this.httpClient
@@ -71,6 +71,32 @@ export class UserService {
       catchError(error => {
         return this.handleError(error);
       }));
+  }
+
+  getUserNameById(id: string): Observable<ResponderModel | any> {
+    const apiUrl = this.settingsService.getApiUrl + '/api/User/GetUserNameById?id=' + id;
+
+    return this.httpClient
+      .get<ResponderModel>(apiUrl)
+      .pipe(map(response =>{
+        return response;
+      }),
+      catchError(error =>{
+        return this.handleError(error);
+      }));
+  }
+
+  getUserById(id: string){
+    const apiUrl = this.settingsService.getApiUrl + '/api/User/GetUserById?id=' + id;
+
+    return this.httpClient
+      .get<ResponderModel>(apiUrl)
+      .pipe(map(response =>{
+        return response;
+      }),
+      catchError(error =>{
+        return this.handleError(error);
+      }))
   }
 
   updateUser(user: UserModel){

@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ResponderModel } from 'src/app/models/responders/responder-model';
 import { TokenReposnderModel } from 'src/app/models/token-reposnders/token-reponder-model';
 import { LoginModel } from 'src/app/models/users/login-model';
 import { UserInfoModel } from 'src/app/models/users/user-info-model';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { PermissionService } from 'src/app/services/permissions/permission.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -23,10 +25,13 @@ export class LoginComponent{
 
   login: LoginModel = new LoginModel;
   userMe = new UserInfoModel;
+  reponder: ResponderModel | any = new ResponderModel;
+  permissionsList: string[] | any = [''];
 
   constructor(
     private user: UserService,
     private auth: AuthService,
+    private permissionsService: PermissionService,
     private route: Router,
     private formBuilder: FormBuilder,) {
       this.userName =  new FormControl('');//, [Validators.required, Validators.minLength(5)]);
@@ -69,11 +74,30 @@ export class LoginComponent{
     saveUsernameAndId(){
       this.user.getMe().subscribe(res =>{
         this.userMe = res;
+        this.user.saveUserName(this.userMe.userName);
+        this.user.saveUserId(this.userMe.id);
+        this.savePermissionList(this.userMe.id);
+        this.route.navigate([''])
       });
-      this.user.saveUserName(this.userMe.userName);
-      this.user.saveUserId(this.userMe.id);
-      this.route.navigate([''])
+      
+    }
+
+    savePermissionList(id: string){
+      return this.permissionsService
+        .getPermissionList(id)
+        .pipe(first())
+        .subscribe(response =>{
+            this.reponder = response;
+            this.permissionsList = this.reponder.object;           
+            this.permissionsService.savePermissionsList(this.permissionsList);
+        } ,error =>{
+          console.error(`ErrorHttp: ${JSON.stringify(error)}`);
+        }
+      );
+
+      
     }
 }
 
+//czego nauczyly sie dzieci podczas lekcji
 
