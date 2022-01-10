@@ -52,6 +52,7 @@ import { UserPermissionDeleteGuard } from './guard/user-permissions/user-permiss
 import { UserPermissionUpdateGuard } from './guard/user-permissions/user-permission-update.guard';
 import { UserPermissionWriteGuard } from './guard/user-permissions/user-permission-write.guard';
 import { UserDeleteGuard } from './guard/users/user-delete.guard';
+import { ApproveAuthorsComponent } from './authors/approve-authors/approve-authors.component';
 
 
 
@@ -77,6 +78,7 @@ import { UserDeleteGuard } from './guard/users/user-delete.guard';
     ApproveAuthorComponent,
     DeleteAuthorComponent,
     ApproveAuthorComponent,
+    ApproveAuthorsComponent,
   ],
   imports: [
     BrowserModule,

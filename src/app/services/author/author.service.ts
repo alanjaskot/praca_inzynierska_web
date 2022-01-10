@@ -6,7 +6,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthorModel } from 'src/app/models/authors/author-model';
 import { ResponderModel } from 'src/app/models/responders/responder-model';
-import { threadId } from 'worker_threads';
 import { SettingsService } from '../settings/settings.service';
 
 const httpOptions = {

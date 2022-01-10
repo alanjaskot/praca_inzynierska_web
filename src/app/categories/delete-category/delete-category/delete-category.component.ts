@@ -14,7 +14,6 @@ import { CategoryService } from 'src/app/services/category/category.service';
 export class DeleteCategoryComponent implements OnInit {
   categoryId: string = '';
   respond = new ResponderModel;
-  category: CategoryModel | any = new CategoryModel;
 
   constructor(
     private categoryService: CategoryService,
@@ -29,34 +28,19 @@ export class DeleteCategoryComponent implements OnInit {
       this.categoryId = data.id;
     });
 
-    this.getCategory(this.categoryId);
+    this.deleteCategory(this.categoryId);
   }
 
-  getCategory(categoryId: string){
+  deleteCategory(id: string){
     return this.categoryService
-    .getCategoryById(categoryId)
-    .pipe(first())
-    .subscribe(responder =>{
-      this.respond = responder;
-      this.category = this.respond.object;
-      this.deleteCategory(this.category);
-    },
-    error =>{
-      this.toastr.error('Błąd połączenia z bazą danych');
-      console.error(`ErrorHttp: ${JSON.stringify(error)}`);
-    });
-  }
-
-  deleteCategory(category: CategoryModel){
-    return this.categoryService
-      .softDeleteCategory(category)
+      .softDeleteCategory(id)
       .pipe(first())
       .subscribe(responder =>{
         this.toastr.show("Kategoria została usunięta");
         this.router.navigate(['/categories'])
       },
       error =>{
-        this.toastr.error("Błąd połączenia z bazą danych");
+        console.log(JSON.stringify(error));
       })
   }
 

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApproveAuthorComponent } from './authors/approve-author/approve-author/approve-author.component';
+import { ApproveAuthorsComponent } from './authors/approve-authors/approve-authors.component';
 import { AuthorComponent } from './authors/author/author/author.component';
 import { AuthorsComponent } from './authors/authors/authors/authors.component';
 import { DeleteAuthorComponent } from './authors/delete-author/delete-author/delete-author.component';
@@ -36,7 +37,8 @@ const routes: Routes = [
   {path: 'authors', children:[
     {path: '', component: AuthorsComponent},
     {path: 'author/:id', component: AuthorComponent},
-    {path: 'authors-approve', component: ApproveAuthorComponent, canActivate: [LoginGuard, AuthorApproveGuard]},
+    {path: 'authors-approve', component: ApproveAuthorsComponent, canActivate: [LoginGuard, AuthorApproveGuard]},
+    {path: 'author-approve/:id', component: ApproveAuthorComponent, canActivate: [LoginGuard, AuthorApproveGuard]},
     {path: 'new-author', component: NewAuthorComponent, canActivate: [LoginGuard]},
     {path: 'edit-author/:id', component: EditAuthorComponent, canActivate: [LoginGuard, AuthorUpdateGuard]},
     {path: 'delete-author/:id', component: DeleteAuthorComponent, canActivate: [LoginGuard, AuthorSoftDeleteGuard]}

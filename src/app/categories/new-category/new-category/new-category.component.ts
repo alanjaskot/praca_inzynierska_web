@@ -53,7 +53,7 @@ export class NewCategoryComponent{
           this.router.navigate(['/categories'])
         },
         error => {
-          this.toastr.success(error);
+          console.error(`ErrorHttp: ${JSON.stringify(error)}`);
         })
     }
 

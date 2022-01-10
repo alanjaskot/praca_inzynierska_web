@@ -12,6 +12,6 @@ export class AuthorModel{
     name?: string;
     secondName?: string;
     deathDate?: string;
-    biograpthy: string = '';
+    biography: string = '';
     addedBy: string = '00000000-0000-0000-0000-000000000000';
 }
