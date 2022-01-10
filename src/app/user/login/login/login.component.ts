@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { ResponderModel } from 'src/app/models/responders/responder-model';
 import { TokenReposnderModel } from 'src/app/models/token-reposnders/token-reponder-model';
+import { UserPermissionModel } from 'src/app/models/user-permissions/user-permission-model';
 import { LoginModel } from 'src/app/models/users/login-model';
 import { UserInfoModel } from 'src/app/models/users/user-info-model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -22,17 +24,18 @@ export class LoginComponent{
   password: FormControl;
   tokenLogin: TokenReposnderModel = new TokenReposnderModel;
 
-
   login: LoginModel = new LoginModel;
   userMe = new UserInfoModel;
-  reponder: ResponderModel | any = new ResponderModel;
-  permissionsList: string[] | any = [''];
+  reponder: ResponderModel = new ResponderModel;
+  userPermissionsArray: UserPermissionModel[] | any = [];
+  permissionsName = [''];
 
   constructor(
     private user: UserService,
     private auth: AuthService,
-    private permissionsService: PermissionService,
+    private permissionService: PermissionService,
     private route: Router,
+    private toastr: ToastrService,
     private formBuilder: FormBuilder,) {
       this.userName =  new FormControl('');//, [Validators.required, Validators.minLength(5)]);
       this.password =  new FormControl('');//, [Validators.required, Validators.minLength(5)]);
@@ -60,15 +63,14 @@ export class LoginComponent{
         this.tokenLogin.token = res.token;
         this.auth.saveType(this.tokenLogin.type);
         this.auth.saveToken(this.tokenLogin.token);
+        if(this.tokenLogin.token.length > 2){
+          this.toastr.success("jesteś zalogowany");
+          this.saveUsernameAndId();
+        }
       },
         error => {
           console.error(`ErrorHttp: ${JSON.stringify(error)}`);
       });
-      
-      if(this.tokenLogin.token.length > 2){
-        this.saveUsernameAndId();
-      }
-      
     }
     
     saveUsernameAndId(){
@@ -76,28 +78,27 @@ export class LoginComponent{
         this.userMe = res;
         this.user.saveUserName(this.userMe.userName);
         this.user.saveUserId(this.userMe.id);
-        this.savePermissionList(this.userMe.id);
+        this.getPermissions(this.userMe.id);
         this.route.navigate([''])
       });
-      
     }
 
-    savePermissionList(id: string){
-      return this.permissionsService
-        .getPermissionList(id)
+    getPermissions(userId: string){
+      return this.permissionService
+        .getPermissions(userId)
         .pipe(first())
-        .subscribe(response =>{
-            this.reponder = response;
-            this.permissionsList = this.reponder.object;           
-            this.permissionsService.savePermissionsList(this.permissionsList);
-        } ,error =>{
-          console.error(`ErrorHttp: ${JSON.stringify(error)}`);
-        }
-      );
-
-      
+        .subscribe(res =>{
+          this.reponder = res;
+          this.userPermissionsArray = this.reponder.object;
+          for(let i = 0; i < this.userPermissionsArray.length; i++){
+            this.permissionsName[i] = this.userPermissionsArray[i].permissionName;
+          }
+          this.permissionService.savePermissionsList(this.permissionsName);
+        }, error => {
+          console.error('ErrorHttp: ${JSON.stringify(error)}')
+        })
     }
 }
 
-//czego nauczyly sie dzieci podczas lekcji
+
 

@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ResponderModel } from 'src/app/models/responders/responder-model';
@@ -27,10 +28,13 @@ const httpOptions = {
 })
 export class UserService {
 
+  userName: string | null = '';
+  userId: string | null = '';
 
   constructor(
     private httpClient: HttpClient,
-    private settingsService: SettingsService) { }
+    private settingsService: SettingsService,
+    private toastr: ToastrService) { }
 
   postLogin(user: LoginModel): Observable<TokenReposnderModel | any>
   {
@@ -42,9 +46,9 @@ export class UserService {
               return tokenResposne;
           }),
           catchError(error => {
+            this.toastr.error(JSON.stringify(error.error));
             return this.handleError(error);
-          })
-          );
+          }));
   }
 
   postRegister(user: UserModel): Observable<any>{
@@ -117,8 +121,12 @@ export class UserService {
     window.sessionStorage.setItem(USER_NAME, userName);
   }
 
-  getUserName(): string | null{
-    return window.sessionStorage.getItem(USER_NAME);
+  getUserName(): string{
+    this.userName = window.sessionStorage.getItem(USER_NAME);
+    if(this.userName != null){
+      return this.userName;
+    }
+    return '';
   }
 
   saveUserId(userId: string){
@@ -126,8 +134,12 @@ export class UserService {
     window.sessionStorage.setItem(USER_ID, userId);
   }
 
-  getUserId(): string | null{
-    return window.sessionStorage.getItem(USER_ID);
+  getUserId(): string {
+    this.userId = window.sessionStorage.getItem(USER_ID);
+    if(this.userId != null){
+      return this.userId;
+    }
+    return '';
   }
 
   /*
