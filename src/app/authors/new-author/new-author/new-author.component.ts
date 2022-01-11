@@ -67,16 +67,16 @@ export class NewAuthorComponent{
     }
     this.newAuthor.addedBy = this.userId;
 
-    this.authorService
-      .createAuthor(this.newAuthor)
-      .pipe(first())
-      .subscribe(res =>{
-        console.log(res);
-        this.toastr.success("Dodano autora! Obecnie czeka na akceptacje.");
-        this.router.navigate(['/authors']);
-      }, error =>{
-        console.error(`ErrorHttp: ${JSON.stringify(error)}`);
-      })
+    //this.authorService
+    //  .createAuthor(this.newAuthor)
+     // .pipe(first())
+      //.subscribe(res =>{
+        //console.log(res);
+        //this.toastr.success("Dodano autora! Obecnie czeka na akceptacje.");
+        //this.router.navigate(['/authors']);
+     // }, error =>{
+     //   console.error(`ErrorHttp: ${JSON.stringify(error)}`);
+     // })
   }
 
 }
