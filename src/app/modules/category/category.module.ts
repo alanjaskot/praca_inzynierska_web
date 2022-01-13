@@ -30,10 +30,7 @@ import { NewCategoryComponent } from 'src/app/views/categories/new-category/new-
     CategoryRoutingModule,
 
     MaterialModule,
-    BrowserModule,
-    AppRoutingModule,
     RouterModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

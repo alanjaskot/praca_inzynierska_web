@@ -30,10 +30,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     AuthorRoutingModule,
     
     MaterialModule,
-    BrowserModule,
-    AppRoutingModule,
     RouterModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

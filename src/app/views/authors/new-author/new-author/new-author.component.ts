@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { AuthorNewAuthorDeactiveGuard } from 'src/app/guard/authors/author-new-author-deactive.guard';
+import { IFormGuard } from 'src/app/guard/interfaces/i-form-guard.interface';
 import { AuthorModel } from 'src/app/models/authors/author-model';
 import { AuthorService } from 'src/app/services/author/author.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -15,10 +16,10 @@ const AUTHOR_ADDED = 'autor został dodany poprawnie';
   templateUrl: './new-author.component.html',
   styleUrls: ['./new-author.component.css']
 })
-export class NewAuthorComponent{
+export class NewAuthorComponent implements IFormGuard{
 
   newAuthor = new AuthorModel;
-  authorForm: FormGroup;
+  form: FormGroup;
   surname: FormControl;
   name: FormControl;
   secondName: FormControl;
@@ -40,7 +41,7 @@ export class NewAuthorComponent{
       this.birthDate = new FormControl(''), [Validators.required];
       this.deathDate = new FormControl(''); 
 
-      this.authorForm = this.formBuilder.group({
+      this.form = this.formBuilder.group({
         surname: this.surname,
         name: this.name,
         secondName: this.secondName,
@@ -48,7 +49,11 @@ export class NewAuthorComponent{
         birthDate: this.birthDate,
         deathDate: this.deathDate
       });
-     }
+    }
+
+  isFormDirty(): boolean {
+    return !this.form.dirty;
+  }
 
   onSubmit(){
     this.userId = this.userService.getUserId();

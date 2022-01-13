@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { IFormGuard } from 'src/app/guard/interfaces/i-form-guard.interface';
 import { CategoryModel } from 'src/app/models/categories/category-models';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -12,7 +13,7 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './new-category.component.html',
   styleUrls: ['./new-category.component.css']
 })
-export class NewCategoryComponent{
+export class NewCategoryComponent implements IFormGuard{
   
 
   newCategory: CategoryModel = new CategoryModel();
@@ -32,6 +33,10 @@ export class NewCategoryComponent{
         categoryName: this.categoryName
       });
     }
+
+  isFormDirty(): boolean {
+    return !this.form.dirty;
+  }
 
     onSubmit(){
       this.userId = this.userService.getUserId();

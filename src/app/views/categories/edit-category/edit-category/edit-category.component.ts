@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { IFormGuard } from 'src/app/guard/interfaces/i-form-guard.interface';
 import { CategoryModel } from 'src/app/models/categories/category-models';
 import { ResponderModel } from 'src/app/models/responders/responder-model';
 import { CategoryService } from 'src/app/services/category/category.service';
@@ -12,7 +13,7 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.css']
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent implements OnInit, IFormGuard {
 
   categoryId: string | any = '';
   userId: string = ''
@@ -34,6 +35,10 @@ export class EditCategoryComponent implements OnInit {
         categoryName: this.categoryName
       });
      }
+
+  isFormDirty(): boolean {
+    return !this.form.dirty;
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params

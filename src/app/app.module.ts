@@ -39,6 +39,8 @@ import { AuthService } from './services/auth/auth.service';
 import { PermissionService } from './services/permissions/permission.service';
 import { SettingsService } from './services/settings/settings.service';
 import { UserService } from './services/user/user.service';
+import { ProfileModule } from './modules/profile/profile.module';
+import { FormGuardDialogComponent } from './helpers/form-guard-dialog/form-guard-dialog.component';
 
 
 @NgModule({
@@ -48,8 +50,7 @@ import { UserService } from './services/user/user.service';
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent,
-    MyProfileComponent,
+    FormGuardDialogComponent,
   ],
   imports: [
     MaterialModule,
