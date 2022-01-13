@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthorApproveGuard } from './guard/authors/author-approve.guard';
+import { AuthorSoftDeleteGuard } from './guard/authors/author-soft-delete.guard';
+import { AuthorUpdateGuard } from './guard/authors/author-update.guard';
+import { CategorySoftDeleteGuard } from './guard/categories/category-soft-delete.guard';
+import { CategoryUpdateGuard } from './guard/categories/category-update.guard';
+import { CategoryWriteGuard } from './guard/categories/category-write.guard';
+import { LoginGuard } from './guard/login/login.guard';
 import { ApproveAuthorComponent } from './views/authors/approve-author/approve-author/approve-author.component';
 import { ApproveAuthorsComponent } from './views/authors/approve-authors/approve-authors.component';
 import { AuthorComponent } from './views/authors/author/author/author.component';
@@ -12,13 +19,6 @@ import { CategoryComponent } from './views/categories/category/category/category
 import { DeleteCategoryComponent } from './views/categories/delete-category/delete-category/delete-category.component';
 import { EditCategoryComponent } from './views/categories/edit-category/edit-category/edit-category.component';
 import { NewCategoryComponent } from './views/categories/new-category/new-category/new-category.component';
-import { AuthorApproveGuard } from './guard/authors/author-approve.guard';
-import { AuthorSoftDeleteGuard } from './guard/authors/author-soft-delete.guard';
-import { AuthorUpdateGuard } from './guard/authors/author-update.guard';
-import { CategorySoftDeleteGuard } from './guard/categories/category-soft-delete.guard';
-import { CategoryUpdateGuard } from './guard/categories/category-update.guard';
-import { CategoryWriteGuard } from './guard/categories/category-write.guard';
-import { LoginGuard } from './guard/login/login.guard';
 import { MainComponent } from './views/main/main/main/main.component';
 import { LoginComponent } from './views/user/login/login/login.component';
 import { MyProfileComponent } from './views/user/my-profile/my-profile/my-profile.component';
@@ -33,31 +33,17 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'my-profile', component: MyProfileComponent, canActivate: [LoginGuard]},
   {path: 'profile/:id', component: ProfileComponent},
+
+  {path: 'authors', loadChildren: () => import('./modules/author/author.module').then(m => m.AuthorModule)},
+  {path: 'categories', loadChildren: () => import('./modules/category/category.module').then(m => m.CategoryModule)},
   
-  {path: 'authors', children:[
-    {path: '', component: AuthorsComponent},
-    {path: 'author/:id', component: AuthorComponent},
-    {path: 'authors-approve', component: ApproveAuthorsComponent, canActivate: [LoginGuard, AuthorApproveGuard]},
-    {path: 'author-approve/:id', component: ApproveAuthorComponent, canActivate: [LoginGuard, AuthorApproveGuard]},
-    {path: 'new-author', component: NewAuthorComponent, canActivate: [LoginGuard]},
-    {path: 'edit-author/:id', component: EditAuthorComponent, canActivate: [LoginGuard, AuthorUpdateGuard]},
-    {path: 'delete-author/:id', component: DeleteAuthorComponent, canActivate: [LoginGuard, AuthorSoftDeleteGuard]}
-  ]},
-
-  {path: 'categories', children:[
-    {path: '', component: CategoriesComponent},
-    {path: 'category/:id', component: CategoryComponent},
-    {path: 'new-category', component: NewCategoryComponent, canActivate: [LoginGuard, CategoryWriteGuard]},
-    {path: 'edit-category/:id', component: EditCategoryComponent, canActivate: [LoginGuard, CategoryUpdateGuard]},
-    {path: 'delete-category/:id', component: DeleteCategoryComponent, canActivate: [LoginGuard, CategorySoftDeleteGuard]}
-    ]},
-
-    
   ];
   
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

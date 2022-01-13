@@ -16,22 +16,7 @@ import { RegisterComponent } from './views/user/register/register/register.compo
 import { ProfileComponent } from './views/user/profile/profile/profile.component';
 import { MyProfileComponent } from './views/user/my-profile/my-profile/my-profile.component';
 import { LoginGuard } from './guard/login/login.guard';
-import { CategoryService } from './services/category/category.service';
-import { CategoriesComponent } from './views/categories/categories/categories/categories.component';
-import { CategoryComponent } from './views/categories/category/category/category.component';
-import { NewCategoryComponent } from './views/categories/new-category/new-category/new-category.component';
-import { EditCategoryComponent } from './views/categories/edit-category/edit-category/edit-category.component';
 import { ToastrModule } from 'ngx-toastr';
-import { DeleteCategoryComponent } from './views/categories/delete-category/delete-category/delete-category.component';
-import { AuthorsComponent } from './views/authors/authors/authors/authors.component';
-import { AuthorComponent } from './views/authors/author/author/author.component';
-import { NewAuthorComponent } from './views/authors/new-author/new-author/new-author.component';
-import { EditAuthorComponent } from './views/authors/edit-author/edit-author/edit-author.component';
-import { DeleteAuthorComponent } from './views/authors/delete-author/delete-author/delete-author.component';
-import { ApproveAuthorComponent } from './views/authors/approve-author/approve-author/approve-author.component';
-import { AuthorApproveGuard } from './guard/authors/author-approve.guard';
-import { AuthorSoftDeleteGuard } from './guard/authors/author-soft-delete.guard';
-import { AuthorUpdateGuard } from './guard/authors/author-update.guard';
 import { BookAuthorDeleteGuard } from './guard/book-authors/book-author-delete.guard';
 import { BookAproveGuard } from './guard/books/book-aprove.guard';
 import { BookSoftDeleteGuard } from './guard/books/book-soft-delete.guard';
@@ -50,10 +35,10 @@ import { UserPermissionDeleteGuard } from './guard/user-permissions/user-permiss
 import { UserPermissionUpdateGuard } from './guard/user-permissions/user-permission-update.guard';
 import { UserPermissionWriteGuard } from './guard/user-permissions/user-permission-write.guard';
 import { UserDeleteGuard } from './guard/users/user-delete.guard';
-import { ApproveAuthorsComponent } from './views/authors/approve-authors/approve-authors.component';
-import { UserAuthModule } from './modules/user-auth/user-auth/user-auth.module';
-import { AuthorModule } from './modules/author/author/author.module';
-
+import { AuthService } from './services/auth/auth.service';
+import { PermissionService } from './services/permissions/permission.service';
+import { SettingsService } from './services/settings/settings.service';
+import { UserService } from './services/user/user.service';
 
 
 @NgModule({
@@ -61,33 +46,35 @@ import { AuthorModule } from './modules/author/author/author.module';
     AppComponent,
     MainComponent,
     NavbarComponent,
-    CategoriesComponent,
-    CategoryComponent,
-    NewCategoryComponent,
-    EditCategoryComponent,
-    DeleteCategoryComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    MyProfileComponent,
   ],
   imports: [
+    MaterialModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,
     BrowserAnimationsModule,
-    MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    UserAuthModule,
-    AuthorModule,
     ToastrModule.forRoot({
       closeButton: true,
-      timeOut: 2000, // 3 seconds
-      progressBar: true,
+      timeOut: 2000, // 2 seconds
+      progressBar: false,
       positionClass: 'toast-center-center'
     }),
-
   ],
   providers: [
-    CategoryService,
     authInterceptorProviders,
+
+    AuthService,
+    UserService,
+    PermissionService,
+    SettingsService,
+
+
     LoginGuard,
 
     BookAuthorDeleteGuard,
@@ -96,16 +83,11 @@ import { AuthorModule } from './modules/author/author/author.module';
     BookSoftDeleteGuard,
     BookUpdateGuard,
 
-    CategorySoftDeleteGuard,
-    CategoryUpdateGuard,
-    CategoryWriteGuard,
-
     CommentDeleteGuard,
 
     LanguageSoftDeleteGuard,
     LanguageUpdateGuard,
     LanguageWriteGuard,
-
 
     PublisherSoftDeleteGuard,
     PublisherUpdateGuard,
