@@ -13,17 +13,12 @@ import { MainComponent } from './views/main/main/main/main.component';
 import { NavbarComponent } from './views/main/navbar/navbar/navbar.component';
 import { LoginComponent } from './views/user/login/login/login.component';
 import { RegisterComponent } from './views/user/register/register/register.component';
-import { ProfileComponent } from './views/user/profile/profile/profile.component';
-import { MyProfileComponent } from './views/user/my-profile/my-profile/my-profile.component';
 import { LoginGuard } from './guard/login/login.guard';
 import { ToastrModule } from 'ngx-toastr';
 import { BookAuthorDeleteGuard } from './guard/book-authors/book-author-delete.guard';
 import { BookAproveGuard } from './guard/books/book-aprove.guard';
 import { BookSoftDeleteGuard } from './guard/books/book-soft-delete.guard';
 import { BookUpdateGuard } from './guard/books/book-update.guard';
-import { CategorySoftDeleteGuard } from './guard/categories/category-soft-delete.guard';
-import { CategoryUpdateGuard } from './guard/categories/category-update.guard';
-import { CategoryWriteGuard } from './guard/categories/category-write.guard';
 import { CommentDeleteGuard } from './guard/comments/comment-delete.guard';
 import { LanguageSoftDeleteGuard } from './guard/languages/language-soft-delete.guard';
 import { LanguageUpdateGuard } from './guard/languages/language-update.guard';
@@ -39,8 +34,9 @@ import { AuthService } from './services/auth/auth.service';
 import { PermissionService } from './services/permissions/permission.service';
 import { SettingsService } from './services/settings/settings.service';
 import { UserService } from './services/user/user.service';
-import { ProfileModule } from './modules/profile/profile.module';
-import { FormGuardDialogComponent } from './helpers/form-guard-dialog/form-guard-dialog.component';
+import { FormGuardDialogComponent } from './views/helpers/form-guard-dialog/form-guard-dialog.component';
+import { CanDeactivateGuard } from './guard/can-deactivate/can-deactivate-guard';
+import { ConfirmYesNoDialogComponent } from './views/confirm-yes-no-dialog/confirm-yes-no-dialog.component';
 
 
 @NgModule({
@@ -51,6 +47,7 @@ import { FormGuardDialogComponent } from './helpers/form-guard-dialog/form-guard
     LoginComponent,
     RegisterComponent,
     FormGuardDialogComponent,
+    ConfirmYesNoDialogComponent,
   ],
   imports: [
     MaterialModule,
@@ -69,7 +66,8 @@ import { FormGuardDialogComponent } from './helpers/form-guard-dialog/form-guard
   ],
   providers: [
     authInterceptorProviders,
-
+    CanDeactivateGuard,
+    
     AuthService,
     UserService,
     PermissionService,

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CanDeactivateGuard } from './guard/can-deactivate/can-deactivate-guard';
+import { FormGuard } from './guard/form/form.guard';
 
 
 import { MainComponent } from './views/main/main/main/main.component';
@@ -11,7 +13,7 @@ import { RegisterComponent } from './views/user/register/register/register.compo
 const routes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
   {path: 'main', component: MainComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'register', component: RegisterComponent},
 
 
